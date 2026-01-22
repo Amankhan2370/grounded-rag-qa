@@ -1,16 +1,33 @@
-# RAG System for Grounded Document QA
+<div align="center">
 
-A production-ready Retrieval-Augmented Generation (RAG) system designed to reduce hallucinations in knowledge-intensive queries through advanced document retrieval, embedding, and citation-backed responses.
+# 🚀 RAG System for Grounded Document QA
 
-## Features
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/)
+[![Pinecone](https://img.shields.io/badge/Pinecone-Vector%20DB-5A67D8?style=for-the-badge&logo=pinecone&logoColor=white)](https://www.pinecone.io/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
-- **Advanced Document Processing**: Intelligent chunking and embedding generation
-- **Vector Database Integration**: High-performance semantic search with Pinecone/ChromaDB
-- **Confidence Scoring**: Retrieval confidence thresholds for quality control
-- **Self-Correction**: Automatic retry logic with improved retrieval strategies
-- **Citation Generation**: Source-backed responses with document references
-- **Production-Ready API**: FastAPI backend with comprehensive error handling
-- **Scalable Architecture**: Designed for production-scale operational constraints
+**A production-ready Retrieval-Augmented Generation (RAG) system designed to reduce hallucinations in knowledge-intensive queries through advanced document retrieval, embedding, and citation-backed responses.**
+
+[Features](#-features) • [Quick Start](#-quick-start) • [API Docs](#-api-documentation) • [Architecture](#-architecture)
+
+</div>
+
+## ✨ Features
+
+| Feature | Description |
+|---------|-------------|
+| 📄 **Advanced Document Processing** | Intelligent chunking and embedding generation with sentence-aware splitting |
+| 🔍 **Vector Database Integration** | High-performance semantic search with Pinecone/ChromaDB support |
+| 🎯 **Confidence Scoring** | Retrieval confidence thresholds for quality control and filtering |
+| 🔄 **Self-Correction** | Automatic retry logic with improved retrieval strategies |
+| 📚 **Citation Generation** | Source-backed responses with document references and metadata |
+| 🚀 **Production-Ready API** | FastAPI backend with comprehensive error handling and validation |
+| 📈 **Scalable Architecture** | Designed for production-scale operational constraints |
+| 🐳 **Docker Support** | Containerized deployment with docker-compose |
+| 🔐 **Multi-LLM Support** | OpenAI GPT-4 and Anthropic Claude integration |
+| ⚡ **Optimized Performance** | ~36% hallucination reduction with citation-backed responses |
 
 ## Tech Stack
 
@@ -97,66 +114,166 @@ Once running, access the interactive API documentation at:
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
 
-## API Endpoints
+## 📡 API Endpoints
 
 ### Health Check
-```
+```http
 GET /health
 ```
 
-### Ingest Documents
+**Response:**
+```json
+{
+  "status": "healthy",
+  "version": "1.0.0",
+  "services": {
+    "embedding_service": "healthy",
+    "vector_db": "healthy",
+    "llm_service": "healthy"
+  },
+  "timestamp": "2024-01-21T12:00:00"
+}
 ```
+
+### Ingest Documents
+```http
 POST /api/v1/documents/ingest
 Content-Type: multipart/form-data
-Body: file (PDF, TXT, DOCX)
+```
+
+**Request:**
+- `file`: PDF, TXT, DOCX, or MD file
+
+**Response:**
+```json
+{
+  "document_id": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "success",
+  "chunks_created": 42,
+  "message": "Document ingested successfully with 42 chunks",
+  "timestamp": "2024-01-21T12:00:00"
+}
 ```
 
 ### Query Documents
-```
+```http
 POST /api/v1/query
 Content-Type: application/json
-Body: {
-  "query": "Your question here",
+```
+
+**Request:**
+```json
+{
+  "query": "What is the main topic of the document?",
   "top_k": 5,
-  "include_citations": true
+  "include_citations": true,
+  "confidence_threshold": 0.7
+}
+```
+
+**Response:**
+```json
+{
+  "answer": "The document discusses advanced RAG systems for reducing hallucinations in LLM responses...",
+  "citations": [
+    {
+      "document_id": "550e8400-e29b-41d4-a716-446655440000",
+      "chunk_id": "doc_0",
+      "text": "RAG systems combine retrieval and generation...",
+      "confidence_score": 0.89,
+      "metadata": {
+        "chunk_index": 0,
+        "filename": "document.pdf"
+      }
+    }
+  ],
+  "confidence_score": 0.89,
+  "retrieval_metadata": {
+    "retrieval_count": 5,
+    "avg_confidence": 0.82,
+    "threshold_used": 0.7
+  },
+  "query": "What is the main topic of the document?",
+  "timestamp": "2024-01-21T12:00:00"
 }
 ```
 
 ### Get Document Status
-```
+```http
 GET /api/v1/documents/{document_id}
 ```
 
-## Architecture
-
+**Response:**
+```json
+{
+  "document_id": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "processed",
+  "chunks_count": 42,
+  "created_at": "2024-01-21T12:00:00",
+  "metadata": {
+    "filename": "document.pdf",
+    "file_size": 1024000
+  }
+}
 ```
-┌─────────────────┐
-│   FastAPI App   │
-└────────┬────────┘
-         │
-    ┌────┴────┐
-    │         │
-┌───▼───┐ ┌──▼──────┐
-│ Doc   │ │  Query  │
-│Ingest │ │ Handler │
-└───┬───┘ └──┬──────┘
-    │        │
-┌───▼────────▼───┐
-│  Chunking &    │
-│  Embedding     │
-└───┬────────────┘
-    │
-┌───▼────────────┐
-│ Vector Database│
-│  (Pinecone/    │
-│   ChromaDB)    │
-└───┬────────────┘
-    │
-┌───▼────────────┐
-│  LLM Backend   │
-│  (OpenAI/      │
-│   Anthropic)   │
-└────────────────┘
+
+## 🏗️ Architecture
+
+### System Overview
+
+```mermaid
+graph TB
+    A[User Request] --> B[FastAPI Application]
+    B --> C{Request Type}
+    C -->|Document Upload| D[Document Ingestion]
+    C -->|Query| E[Query Handler]
+    
+    D --> F[Text Extraction]
+    F --> G[Chunking Pipeline]
+    G --> H[Embedding Generation]
+    H --> I[Vector Database]
+    
+    E --> J[Query Embedding]
+    J --> I
+    I --> K[Retrieval with Confidence Scoring]
+    K --> L{Confidence Check}
+    L -->|Low| M[Self-Correction Retry]
+    L -->|High| N[LLM Generation]
+    M --> K
+    N --> O[Citation Generation]
+    O --> P[Response to User]
+    
+    style B fill:#009688
+    style I fill:#5A67D8
+    style N fill:#412991
+    style O fill:#FF6B6B
+```
+
+### Data Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant API
+    participant Ingestion
+    participant Chunker
+    participant Embedder
+    participant VectorDB
+    participant LLM
+    
+    User->>API: Upload Document
+    API->>Ingestion: Extract Text
+    Ingestion->>Chunker: Chunk Document
+    Chunker->>Embedder: Generate Embeddings
+    Embedder->>VectorDB: Store Vectors
+    
+    User->>API: Query Question
+    API->>Embedder: Embed Query
+    Embedder->>VectorDB: Semantic Search
+    VectorDB->>API: Retrieve Top-K Chunks
+    API->>LLM: Generate Answer with Context
+    LLM->>API: Answer + Citations
+    API->>User: Response
 ```
 
 ## Project Structure
@@ -188,12 +305,19 @@ grounded-rag-qa/
 └── README.md
 ```
 
-## Performance Metrics
+## 📊 Performance Metrics
 
-- **Hallucination Reduction**: ~36% improvement over vanilla LLM responses
-- **Answer Faithfulness**: Enhanced through citation-backed RAG
-- **Retrieval Relevance**: Optimized through confidence thresholds
-- **Latency**: Optimized for production workloads
+<div align="center">
+
+| Metric | Improvement |
+|-------|------------|
+| 🎯 **Hallucination Reduction** | ~36% vs vanilla LLM |
+| ✅ **Answer Faithfulness** | Enhanced via citation-backed RAG |
+| 🔍 **Retrieval Relevance** | Optimized with confidence thresholds |
+| ⚡ **Response Latency** | Optimized for production workloads |
+| 📈 **Confidence Accuracy** | Self-correction improves retrieval quality |
+
+</div>
 
 ## Contributing
 
