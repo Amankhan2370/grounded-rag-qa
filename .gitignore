@@ -60,7 +60,8 @@ documents/
 *.txt
 uploads/
 vector_store/
-models/
+# Note: app/models/ is tracked, only ignore root-level models/
+/models/
 
 # Docker
 .dockerignore
