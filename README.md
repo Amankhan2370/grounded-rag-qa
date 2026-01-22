@@ -5,8 +5,15 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/)
+[![Anthropic](https://img.shields.io/badge/Anthropic-Claude-FF6B6B?style=for-the-badge)](https://www.anthropic.com/)
 [![Pinecone](https://img.shields.io/badge/Pinecone-Vector%20DB-5A67D8?style=for-the-badge&logo=pinecone&logoColor=white)](https://www.pinecone.io/)
+[![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector%20DB-FFA500?style=for-the-badge)](https://www.trychroma.com/)
+[![Sentence Transformers](https://img.shields.io/badge/Sentence%20Transformers-Embeddings-FF6B6B?style=for-the-badge)]()
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
+[![GCP](https://img.shields.io/badge/GCP-Cloud%20Platform-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)](https://cloud.google.com/)
+[![pytest](https://img.shields.io/badge/pytest-Testing-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)](https://pytest.org/)
+[![NLTK](https://img.shields.io/badge/NLTK-NLP-3776AB?style=for-the-badge)](https://www.nltk.org/)
+[![AsyncIO](https://img.shields.io/badge/AsyncIO-Asynchronous-3776AB?style=for-the-badge&logo=python&logoColor=white)]()
 
 **A production-ready Retrieval-Augmented Generation (RAG) system designed to reduce hallucinations in knowledge-intensive queries through advanced document retrieval, embedding, and citation-backed responses.**
 
@@ -29,14 +36,42 @@
 | 🔐 **Multi-LLM Support** | OpenAI GPT-4 and Anthropic Claude integration |
 | ⚡ **Optimized Performance** | ~36% hallucination reduction with citation-backed responses |
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-- **Backend**: Python 3.10+, FastAPI
-- **Vector DB**: Pinecone / ChromaDB (configurable)
-- **LLM**: OpenAI GPT / Anthropic Claude (configurable)
-- **Embeddings**: OpenAI Embeddings / Sentence Transformers
-- **Cloud**: GCP-ready (Cloud Storage, Vertex AI)
-- **Containerization**: Docker
+### Core Technologies
+
+| Category | Technology | Purpose |
+|----------|-----------|---------|
+| **Language** | Python 3.10+ | Core application logic and API server |
+| **API Framework** | FastAPI | High-performance async API server |
+| **LLM Providers** | OpenAI API | GPT-4 and GPT-3.5 integration |
+| **LLM Providers** | Anthropic API | Claude-3 model integration |
+| **Vector Database** | Pinecone | Managed vector database for production |
+| **Vector Database** | ChromaDB | Open-source vector database alternative |
+| **Embeddings** | Sentence Transformers | Local embedding generation |
+| **Containerization** | Docker | Application containerization |
+| **Orchestration** | Docker Compose | Multi-container deployment |
+| **Cloud Platform** | GCP Cloud Storage | Document storage and retrieval |
+| **Cloud Platform** | GCP Vertex AI | Managed ML services integration |
+| **Testing** | pytest | Unit and integration testing |
+| **NLP** | NLTK | Text processing and tokenization |
+| **Async Runtime** | AsyncIO | Concurrent request handling |
+
+### Technology Integration
+
+- **Python 3.10+**: Core language with modern async/await support for high-concurrency document processing
+- **FastAPI**: Async API server with automatic OpenAPI documentation and request validation
+- **OpenAI API**: GPT-4 and GPT-3.5 integration for LLM generation and embeddings
+- **Anthropic API**: Claude-3 model support as alternative LLM provider
+- **Pinecone**: Managed vector database for production-scale semantic search
+- **ChromaDB**: Open-source vector database option for local/self-hosted deployments
+- **Sentence Transformers**: Local embedding generation for cost-effective document processing
+- **Docker + Docker Compose**: Containerized deployment for consistent environments
+- **GCP Cloud Storage**: Scalable document storage and retrieval for large document sets
+- **GCP Vertex AI**: Integration with Google's managed ML services for advanced features
+- **pytest**: Comprehensive test suite for RAG pipeline, retrieval, and API endpoints
+- **NLTK**: Text preprocessing, tokenization, and sentence splitting for intelligent chunking
+- **AsyncIO**: Enables parallel document processing and concurrent query handling
 
 ## Quick Start
 
